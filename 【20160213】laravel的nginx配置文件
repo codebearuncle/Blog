@@ -1,0 +1,18 @@
+server {
+    listen 80;
+    server_name mall.localhost;
+    #laravel入口文件放在public文件夹下
+    root /data/www/mall/public;
+    index index.html index.php;
+    #所有uri都匹配该规则
+    location / {
+        try_files $uri $uri/ /index.php$is_args$query_string;
+    }
+    #支持php
+    location ~ \.php$ {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
